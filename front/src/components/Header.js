@@ -8,13 +8,11 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import InputBase from '@mui/material/InputBase';
-import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
-import { doLogout, getProducts, isAdmin, isLoggedIn } from '../services/Myservice';
+import { getProducts, isAdmin, isLoggedIn } from '../services/Myservice';
 import { searchProduct } from '../services/Myservice';
 import { useDispatch, useSelector } from 'react-redux';
-import addcartReducer from '../statemanage/reducers/addcartReducer';
 import {addPro} from '../store/searchProSlice';
 
 const Search = styled('div')(({ theme }) => ({
@@ -81,6 +79,11 @@ export default function Header() {
     }
   }
 
+  const doLogout = () => {
+    localStorage.clear();
+    navigate('/');
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -114,13 +117,27 @@ export default function Header() {
             <Button color="inherit" onClick={() => navigate('/regis')}>SignUp</Button> </>
           }
 
-          {isLoggedIn() && <>
+          {/* {isLoggedIn() && <>
             <Button color="inherit" onClick={() => navigate('/products')}>Home</Button>
             {isAdmin() &&
               <> <Button color="inherit" onClick={() => navigate('/addproduct')}>Add Product</Button> </>}
             <Button color="inherit" onClick={() => navigate('/cart')}>Cart <span style={{ color: 'pink', marginLeft: '4px' }}> {item.length}</span></Button>
             <Button color="inherit" onClick={() => doLogout()}>Logout</Button>
+          </>} */}
+
+          {(isLoggedIn() && !isAdmin()) && <>
+            <Button color="inherit" onClick={() => navigate('/products')}>Home</Button>
+            <Button color="inherit" onClick={() => navigate('/cart')}>Cart <span style={{ color: 'pink', marginLeft: '4px' }}> {item.length}</span></Button>
+            <Button color="inherit" onClick={() => doLogout()}>Logout</Button>
           </>}
+
+          {
+            (isLoggedIn() && isAdmin()) && <>
+              <Button color="inherit" onClick={() => navigate('/products')}>Home</Button>
+              <Button color="inherit" onClick={() => navigate('/addproduct')}>Add Product</Button>
+              <Button color="inherit" onClick={() => doLogout()}>Logout</Button>
+            </> 
+          }
 
         </Toolbar>
       </AppBar>

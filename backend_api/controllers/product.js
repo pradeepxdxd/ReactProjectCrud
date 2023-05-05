@@ -44,7 +44,6 @@ async function saveProduct(req, res) {
     const data = { ...requestBody, 'imageURL': url }
     console.log(data)
 
-
     const product = new Product(data)
     try {
         const savedProduct = await product.save();

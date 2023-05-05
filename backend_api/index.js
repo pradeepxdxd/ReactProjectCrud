@@ -7,10 +7,10 @@ const {
   getProductCategories,
   getProductById,
   updateProductDetails,
-  deleteProduct
+  deleteProduct,
 } = require("./controllers/product");
 const router = express.Router();
-const { signUp, signIn } = require("./controllers/auth");
+const { signUp, signIn, changePassword } = require("./controllers/auth");
 const admin = require("./middleware/admin");
 const auth = require("./middleware/auth");
 const multer = require('multer');
@@ -43,6 +43,7 @@ var upload = multer({
 //Auth
 router.post("/api/v1/users", signUp);
 router.post("/api/v1/auth", signIn);
+router.patch('/api/v1/auth/changePassword', changePassword);
 
 //Address
 router.post("/api/v1/addresses", auth, addAddress);

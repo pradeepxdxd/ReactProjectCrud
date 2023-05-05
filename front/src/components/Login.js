@@ -92,10 +92,10 @@ export default function Login() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
@@ -111,8 +111,8 @@ export default function Login() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/regis" variant="body2">
-                {/* <Link component={NavLink} to='/regis' > */}
+                {/* <Link href="/regis" variant="body2"> */}
+                <Link component={NavLink} to='/regis' >
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

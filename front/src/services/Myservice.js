@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import jwt_decode from 'jwt-decode'
 const apiURL="http://localhost:3001/api/v1/"; 
 function postLogin(data){
@@ -30,10 +31,6 @@ function getUser(){
 function isAdmin(){
     return !getUser()?false:getUser().isAdmin;
 }
-function doLogout(){
-    localStorage.removeItem("_token");
-    window.location="/";
-}
 function postAddProduct(data){
     return axios.post(`${apiURL}products`,data)
 }
@@ -52,5 +49,5 @@ function updateProduct(id, data){
 function searchProduct(query){
     return axios.get(`${apiURL}products?name=${query}`);
 }
-export {postLogin,postRegis,isLoggedIn,getToken,getUser,isAdmin,doLogout,postAddProduct,getProducts,
+export {postLogin,postRegis,isLoggedIn,getToken,getUser,isAdmin,postAddProduct,getProducts,
 deleteProduct,getProductById,updateProduct,searchProduct};
