@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -31,25 +31,35 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Login() {
-    const [errMsg,setErrMsg]=useState('');
-    const navigate=useNavigate();
+  const [errMsg, setErrMsg] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn()){
+      navigate('/products');
+    }
+    else {
+      navigate("/");
+    }
+  }, []);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const formData={email:data.get('email'),password:data.get('password')};
+    const formData = { email: data.get('email'), password: data.get('password') };
     postLogin(formData)
-    .then(res=>{
-        if(res.data.err==0){
-            localStorage.setItem("_token",res.data.token);
-            isLoggedIn();
-            isAdmin();
-            navigate("/products");
+      .then(res => {
+        if (res.data.err == 0) {
+          localStorage.setItem("_token", res.data.token);
+          isLoggedIn();
+          isAdmin();
+          navigate("/products");
         }
-        if(res.data.err==1){
-            setErrMsg(res.data.msg);
+        if (res.data.err == 1) {
+          setErrMsg(res.data.msg);
         }
-    })
-    .catch(err=> console.log(err))
+      })
+      .catch(err => console.log(err))
   };
 
   return (
@@ -70,7 +80,7 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          {errMsg!='' &&  <Alert severity="error">{errMsg}</Alert>}
+          {errMsg != '' && <Alert severity="error">{errMsg}</Alert>}
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
